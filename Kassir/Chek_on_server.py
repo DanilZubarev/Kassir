@@ -1,4 +1,4 @@
-from selenium import webdriver
+from selenium import webdriver #https://habr.com/ru/post/273089/ про селениум
 import time
 import pickle
 from selenium.webdriver import ActionChains
