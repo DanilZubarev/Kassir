@@ -7,8 +7,8 @@ from selenium.webdriver import ActionChains
 cash = 0
 non_cash = 0
 date = 0
-url = 'https://ccskna.smartshell.gg/login'
-url2 = 'https://ccskna.smartshell.gg/work-shifts'
+url = 'https://admin.smartshell.gg/login'
+url2 = 'https://admin.smartshell.gg/work-shifts'
 
 # опции браузера
 options = webdriver.FirefoxOptions()
@@ -19,16 +19,15 @@ broweser = webdriver.Firefox (
                             executable_path='/Users/danilzubarev/PycharmProjects/pythonProject/Kassir/geckodriver 2',
                             options = options
                              )
+broweser.implicitly_wait(10)
 try:
 # Вход под логином и поролем
     broweser.get(url = url)
-    time.sleep(2)
-    login = broweser.find_element(by = 'xpath' , value = '/html/body/div[1]/div[2]/div/div[1]/form/div[1]/label/input')
-    login.send_keys('Danil')
-    password = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div/div[1]/form/div[2]/label/input')
+    login = broweser.find_element(by = 'xpath' , value = '/html/body/div[1]/div[2]/div[1]/form/div/div[1]/div/label/input')
+    login.send_keys('79098647007')
+    password = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div[1]/form/div/div[2]/div/label/input')
     password.send_keys('Danil87')
-    buton = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div/div[1]/form/button').click()
-    time.sleep(2)
+    buton = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div[1]/form/button').click()
 # Сбор куки
     pickle.dump(broweser.get_cookies(), open('cookies', 'wb'))
     time.sleep(2)
@@ -36,13 +35,13 @@ try:
     for cookie in pickle.load(open('cookies', 'rb')):
         broweser.add_cookie(cookie)
 # Переход на страницу отчетов по кассе
-    time.sleep(3)
+    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div[1]/div/div/div/div').click()
+    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div[1]/div/button').click()
+    time.sleep(5)
     broweser.get(url=url2)
-    time.sleep(2)
-    buton_shifts = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div/div/main/div/div/div[2]')
+    buton_shifts = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div/main/div/div/div[2]')
     action = ActionChains(broweser)
     action.double_click(buton_shifts).perform()
-    time.sleep(5)
 # Сбор требуемых данных
     cash = broweser.find_element(by='xpath', value='/html/body/div[2]/div/div/div[2]/div[1]/div[2]/span[1]')
     non_cash = broweser.find_element(by='xpath', value='/html/body/div[2]/div/div/div[2]/div[1]/div[3]/span[1]')

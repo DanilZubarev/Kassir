@@ -128,4 +128,3 @@ def Eror(message):
 
 # Постоянная работа бота
 bot.polling(non_stop = True)
-input()
