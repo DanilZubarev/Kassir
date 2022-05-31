@@ -1,6 +1,7 @@
 import telebot
 from telebot import types
 import time
+import telegram_send
 from Chek_on_server import cash, non_cash, date
 from Save_tabl import save_tabl, save_kass, incass, total_kass
 
@@ -10,7 +11,6 @@ bot = telebot.TeleBot(token)
 kassa = {'start': '', 'cash': cash, 'end': '', 'expen': '', 'non_cash': non_cash, 'err_cash_coment': '', 'kass_non_cash':'',
          'kass': '', 'coment': '', 'data': date, 'err_cash': '', 'err_non_cash': '', 'err_non_cash_coment':''}
 kassa_expen = 0
-#save_tabl(kassa)
 
 # Блок управления команды Старт
 @bot.message_handler(commands=['start'])
@@ -79,9 +79,6 @@ def callback(call):
             err = kassa['non_cash'] - kassa['kass_non_cash']
             bot.send_message(call.message.chat.id, f'Сумма в чеке на {err} рублей меньше чем в программе!')
             Eror(call.message)
-
-
-
 
 # Блок ответов на сообщения пользователя
 @bot.message_handler(content_types=['text'])
@@ -168,6 +165,8 @@ def text (message):
             bot.send_message(message.chat.id, '🤘Поздравляю смена сдана! Желаю хорошо отдохнуть!🤘')
             kassa['err_non_cash']=0
             save_tabl(kassa)
+            total = kassa['non_cash'] + kassa['err_non_cash'] + kassa['cash'] + kassa['err_cash']
+            telegram_send.send( messages = [f'Касса сдана, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
     elif kassa['err_non_cash'] == '':
         kassa['err_non_cash'] = int(message.text)
         bot.send_message(message.chat.id, f'Кратко опиши их.')
@@ -179,6 +178,8 @@ def text (message):
         if kassa['kass_non_cash'] == non_cash + kassa['err_non_cash']:
             bot.send_message(message.chat.id, '🤘Поздравляю смена сдана! Желаю хорошо отдохнуть!🤘')
             save_tabl(kassa)
+            total = kassa['non_cash'] + kassa['err_non_cash'] + kassa['cash'] + kassa['err_cash']
+            telegram_send.send( messages = [f'Касса сдана, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
         elif kassa['kass_non_cash'] >  non_cash + kassa['err_non_cash']:
             err = kassa['kass_non_cash'] -  non_cash + kassa['err_non_cash']
             bot.send_message(message.chat.id, f'Сумма в чеке на {err} рублей больше чем в программе!')
@@ -195,4 +196,12 @@ def Eror(message):
     bot.send_message(message.chat.id, 'Проверь все и начни заново!', reply_markup=markup)
 
 # Постоянная работа бота
-bot.polling(non_stop = True)
+def start():
+    bot.polling(non_stop = True)
+try:
+    start()
+except Exception as ex:
+    telegram_send.send(messages=[ex])
+    time.sleep(60)
+    telegram_send.send(messages=['Повторный запуск!'])
+    start()
