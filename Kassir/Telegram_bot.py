@@ -203,5 +203,4 @@ try:
 except Exception as ex:
     telegram_send.send(messages=[ex])
     time.sleep(60)
-    telegram_send.send(messages=['Повторный запуск!'])
     start()
