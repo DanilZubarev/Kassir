@@ -15,19 +15,19 @@ def save_tabl(kassa):
         glist.update_cell(date.row + 1, 4, kassa['non_cash'] + kassa['err_non_cash'])
     else:
         glist.update_cell(date.row + 1, 4, str(int(glist.cell(date.row + 1, 4).value) + kassa['non_cash'] + kassa['err_non_cash']))
-    if glist.cell(date.row, 9).value == None:
-        glist.update_cell(date.row, 9, kassa['expen'])
+    if glist.cell(date.row + 2, 9).value == None:
+        glist.update_cell(date.row + 2, 9, kassa['expen'])
     else:
-        glist.update_cell(date.row, 9, str(int(glist.cell(date.row, 9).value) + kassa['expen']))
-    if glist.cell(date.row, 10).value == None:
-        glist.update_cell(date.row, 10, kassa['coment'])
+        glist.update_cell(date.row +2, 9, str(int(glist.cell(date.row, 9).value) + kassa['expen']))
+    if glist.cell(date.row + 2, 10).value == None:
+        glist.update_cell(date.row + 2, 10, kassa['coment'])
     else:
-        glist.update_cell(date.row + 1, 10, kassa['coment'])
-    if glist.cell(date.row, 10).value == None:
+        glist.update_cell(date.row + 3, 10, kassa['coment'])
+    if glist.cell(date.row, 11).value == None:
         glist.update_cell(date.row, 11, kassa['err_cash_coment'])
     else:
         glist.update_cell(date.row + 1, 11, kassa['err_cash_coment'])
-    if glist.cell(date.row, 10).value == None:
+    if glist.cell(date.row, 11).value == None:
         glist.update_cell(date.row + 2, 11, kassa['err_non_cash_coment'])
     else:
         glist.update_cell(date.row + 3, 11, kassa['err_non_cash_coment'])
