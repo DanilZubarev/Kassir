@@ -18,7 +18,7 @@ def save_tabl(kassa):
     if glist.cell(date.row + 2, 9).value == None:
         glist.update_cell(date.row + 2, 9, kassa['expen'])
     else:
-        glist.update_cell(date.row +2, 9, str(int(glist.cell(date.row, 9).value) + kassa['expen']))
+        glist.update_cell(date.row + 2, 9, str(int(glist.cell(date.row + 2, 9).value) + kassa['expen']))
     if glist.cell(date.row + 2, 10).value == None:
         glist.update_cell(date.row + 2, 10, kassa['coment'])
     else:
