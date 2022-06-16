@@ -172,7 +172,8 @@ def text (message):
             kassa['err_non_cash'] = 0
             save_tabl(kassa)
             total = kassa['non_cash'] + kassa['err_non_cash'] + kassa['cash'] + kassa['err_cash']
-            telegram_send.send( messages = [f'Касса сдана, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
+            user = message.from_user.first_name
+            telegram_send.send( messages = [f'Касса сдана {user}, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
     elif kassa['err_non_cash'] == '':
         kassa['err_non_cash'] = int(message.text)
         bot.send_message(message.chat.id, f'Кратко опиши их.')
@@ -185,7 +186,8 @@ def text (message):
             bot.send_message(message.chat.id, '🤘Поздравляю смена сдана! Желаю хорошо отдохнуть!🤘')
             save_tabl(kassa)
             total = kassa['non_cash'] + kassa['err_non_cash'] + kassa['cash'] + kassa['err_cash']
-            telegram_send.send( messages = [f'Касса сдана, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
+            user = message.from_user.first_name
+            telegram_send.send( messages = [f'Касса сдана {user}, доход за смену {total} рублей, в кассе {total_kass()} рублей'])
         elif kassa['kass_non_cash'] >  non_cash + kassa['err_non_cash']:
             err = kassa['kass_non_cash'] -  non_cash + kassa['err_non_cash']
             bot.send_message(message.chat.id, f'Сумма в чеке на {err} рублей больше чем в программе!')
