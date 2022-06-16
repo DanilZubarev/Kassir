@@ -3,7 +3,7 @@ from telebot import types
 import time
 import telegram_send
 from Chek_on_server import cash, non_cash, date
-from Save_tabl import save_tabl, save_kass, incass, total_kass
+from Save_tabl import save_tabl, cheak_kass, incass, total_kass
 
 # Входные параметры
 token = '5395458744:AAEnB73kduH7K9nASWH246-cmXhS34sl8r8'
@@ -21,7 +21,8 @@ def start (message):
     global kassa_expen
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton('Да, Я готов!', callback_data= 'Yes1'))
-    bot.send_message(message.chat.id,'Привет, приступим к сдаче смены!', reply_markup = markup)
+    user = message.from_user.first_name
+    bot.send_message(message.chat.id,f'Привет {user}, приступим к сдаче смены!', reply_markup = markup)
     global kassa
     kassa = {'start': '', 'cash': cash, 'end': '', 'expen': '', 'non_cash': non_cash, 'err_cash_coment': '', 'kass_non_cash': '',
              'kass': '', 'coment': '', 'data': date, 'err_cash': '', 'err_non_cash': '', 'err_non_cash_coment': ''}
@@ -64,7 +65,7 @@ def callback(call):
         bot.send_message(call.message.chat.id, 'Напиши сумму которую сдаешь.')
 
     elif call.data == 'Yes4':
-        bot.send_message(call.message.chat.id, 'Напиши итоговую сумму, если в терменале меньше чем по пограмме то пишешь '
+        bot.send_message(call.message.chat.id, 'Напиши итоговую сумму, если в терминале меньше чем по программе то пишешь '
                                                'со знаком минус, если больше то со знаком плюс.')
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                               text='Да, были!😔', reply_markup=None)
@@ -87,7 +88,9 @@ def callback(call):
 def text (message):
     global kassa_expen, cash, non_cash
     if kassa_expen == 1:                              # Инкасция
+        player = message.from_user.first_name
         bot.send_message(message.chat.id, f'В кассе осталось {incass(int(message.text))} рублей.')
+        telegram_send.send(messages=[f'Было проведена инкасация {player}, изьято {message.text} рублей.'])
         kassa_expen = 0
     elif kassa ['start'] == '':
         kassa ['start'] = int(message.text)
@@ -144,9 +147,9 @@ def text (message):
         if kassa['kass'] == total:
             bot.send_message(message.chat.id, 'Поздравляю, касса по наличным сошлась!')
             kass = kassa['kass']
-            bot.send_message(message.chat.id, f'Общая сумма наличных {save_kass(kass)} рублей.')
+            bot.send_message(message.chat.id, f'Общая сумма наличных {cheak_kass(kass)} рублей.')
             time.sleep(1)
-            bot.send_message(message.chat.id, 'Закрой сменну в терминале и введи c чека сумму безналичных оплат.')
+            bot.send_message(message.chat.id, 'Закрой смену в терминале и введи c чека сумму безналичных оплат.')
         elif kassa['kass'] > total:
             err = kassa['kass'] - total
             bot.send_message(message.chat.id, f'Ты сдаешь на {err} рублей больше чем должен.')

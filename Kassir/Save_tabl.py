@@ -31,13 +31,13 @@ def save_tabl(kassa):
         glist.update_cell(date.row + 2, 11, kassa['err_non_cash_coment'])
     else:
         glist.update_cell(date.row + 3, 11, kassa['err_non_cash_coment'])
+    glist.update_cell(127, 3, cheak_kass(kassa ['kass']))
 
 
 
-def save_kass(kass):
+def cheak_kass(kass):
     total = glist.cell(127, 3).value
     total = int(total) + kass
-    glist.update_cell(127, 3, total)
     return (total)
 
 def incass(kass):

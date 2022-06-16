@@ -16,8 +16,8 @@ options.set_preference('general.useragent.override','Mozilla/5.0 (Macintosh; Int
 options.set_preference('dom.webdriver.enabled', False)
 options.headless = True
 broweser = webdriver.Firefox (
-                            #executable_path='/Users/danilzubarev/PycharmProjects/pythonProject/Kassir/geckodriver 2',
-                            executable_path='C:\\Users\\SkillAdmin\\PycharmProjects\\Kassir\\Kassir\\geckodriver.exe',
+                            executable_path='/Users/danilzubarev/PycharmProjects/pythonProject/Kassir/geckodriver 2',
+                            #executable_path='C:\\Users\\SkillAdmin\\PycharmProjects\\Kassir\\Kassir\\geckodriver.exe',
                             options = options
                              )
 broweser.implicitly_wait(10)
