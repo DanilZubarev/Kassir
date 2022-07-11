@@ -24,11 +24,11 @@ broweser.implicitly_wait(10)
 try:
 # Вход под логином и поролем
     broweser.get(url = url)
-    login = broweser.find_element(by = 'xpath' , value = '/html/body/div[1]/div[2]/div[1]/form/div/div[1]/div/label/input')
+    login = broweser.find_element(by = 'xpath' , value = '/html/body/div[1]/div[3]/div[1]/form/div/div[1]/div/label/input')
     login.send_keys('79098647007')
-    password = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div[1]/form/div/div[2]/div/label/input')
+    password = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[3]/div[1]/form/div/div[2]/div/label/input')
     password.send_keys('Danil87')
-    buton = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[2]/div[1]/form/button').click()
+    buton = broweser.find_element(by='xpath', value = '/html/body/div[1]/div[3]/div[1]/form/button').click()
 # Сбор куки
     pickle.dump(broweser.get_cookies(), open('cookies', 'wb'))
     time.sleep(2)
@@ -36,11 +36,11 @@ try:
     for cookie in pickle.load(open('cookies', 'rb')):
         broweser.add_cookie(cookie)
 # Переход на страницу отчетов по кассе
-    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div[1]/div/div/div/div').click()
-    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div[1]/div/button').click()
+    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[3]/div[1]/div/div/div/div').click()
+    buton = broweser.find_element(by='xpath', value='/html/body/div[1]/div[3]/div[1]/div/button').click()
     time.sleep(5)
     broweser.get(url=url2)
-    buton_shifts = broweser.find_element(by='xpath', value='/html/body/div[1]/div[2]/div/main/div/div/div[2]')
+    buton_shifts = broweser.find_element(by='xpath', value='/html/body/div[1]/div[3]/div/main/div/div/div[2]')
     action = ActionChains(broweser)
     action.double_click(buton_shifts).perform()
 # Сбор требуемых данных
